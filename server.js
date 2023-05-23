@@ -19,6 +19,8 @@ app.use(express.static(path.join(__dirname, "build")));
 // Be sure to mount before routes
 app.use(require("./config/checkToken"));
 
+
+
 // Put API routes here, before the "catch all" route
 // ======EXAMPLE======
 // //controller

@@ -44,7 +44,7 @@ async function login(req, res) {
   }
 }
 
-// controllers/api/users.js
+
 
 function checkToken(req, res) {
   // req.user will always be there for you when a token is sent

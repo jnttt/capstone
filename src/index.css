@@ -1,4 +1,8 @@
 /* CSS Custom Properties */
+body {
+  background-image: url("./images/shiba-bg.jpg");
+  object-fit: fill;
+}
 :root {
   --white: #ffffff;
   --tan-1: #fbf9f6;
@@ -88,7 +92,7 @@ code {
 }
 
 p.error-message {
-  color: var(--orange);
+  color: var(--text-dark);
   text-align: center;
 }
 
@@ -155,3 +159,18 @@ button[type="submit"] {
   grid-column: span 2;
   margin: 1vmin 0 0;
 }
+
+.container{
+  display: inline-block;
+}
+.images{
+  width:200px;
+  height: 200px;
+  margin:5px;
+  display: inline-block;
+}
+  .imgsDiv{
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+  }

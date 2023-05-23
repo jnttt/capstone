@@ -11,13 +11,15 @@ export default function NavBar({ user, setUser }) {
 
   return (
     <nav>
-      <Link to="/orders">Order History</Link>
+      <Link to="/About">About</Link>
       &nbsp; | &nbsp;
-      <Link to="/orders/new">New Order</Link>
-      <span>Welcome, {user.name}</span>
+      <Link to="/Gallery">Gallery</Link>
+      &nbsp; | &nbsp;
       <Link to="" onClick={handleLogOut}>
         Log Out
       </Link>
+      <br></br>
+      <span className="welcome-message">Welcome to the Michi Gallery, {user.name}</span>
     </nav>
   );
 }
