@@ -1,8 +1,9 @@
 /* CSS Custom Properties */
 body {
   background-image: url("./images/shiba-bg.jpg");
-  object-fit: fill;
+  
 }
+
 :root {
   --white: #ffffff;
   --tan-1: #fbf9f6;
@@ -173,4 +174,9 @@ button[type="submit"] {
 display: flex;
 justify-content: center;
 flex-wrap: wrap;
+  }
+
+  .image{
+    width: 500px;
+    height: 500px;
   }

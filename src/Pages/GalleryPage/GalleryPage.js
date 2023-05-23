@@ -1,5 +1,6 @@
 
 import Gallery from "../../components/Gallery/Gallery"
+import ImageDetail from "../../components/ImageDetail";
 
 export default function GalleryPage() {
 
@@ -8,6 +9,7 @@ export default function GalleryPage() {
     <div>
       <h1>Gallery</h1>
       <Gallery/>
+      <ImageDetail/>
     </div>
   );
 }

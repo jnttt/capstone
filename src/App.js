@@ -9,7 +9,7 @@ import AuthPage from "./Pages/AuthPage/AuthPage";
 import GalleryPage from "./Pages/GalleryPage/GalleryPage";
 // components
 import NavBar from "./components/NavBar/NavBar";
-
+import ImageDetail from "./components/ImageDetail";
 
 function App() {
   const [user, setUser] = useState(getUser());
@@ -23,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/about" element={<AboutPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/Gallery/:shibaName" element={<ImageDetail />} />
           </Routes>
         </>
       ) : (
