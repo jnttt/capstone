@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function Comment({ imageId, comments, setComments }) {
+function Comment({ imageId }) {
+  const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
+
+  useEffect(() => {
+    const storedComments = localStorage.getItem("comments");
+    if (storedComments) {
+      setComments(JSON.parse(storedComments));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("comments", JSON.stringify(comments));
+  }, [comments]);
 
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
@@ -17,15 +30,12 @@ function Comment({ imageId, comments, setComments }) {
       id: Date.now(),
       text: commentText,
     };
-    setComments((prevComments) => ({
-      ...prevComments,
-      [imageId]: [...(prevComments[imageId] || []), newComment],
-    }));
+    setComments((prevComments) => [...prevComments, newComment]);
     setCommentText("");
   };
 
   const handleEditComment = (commentId) => {
-    const commentText = comments[imageId].find((comment) => comment.id === commentId)?.text || "";
+    const commentText = comments.find((comment) => comment.id === commentId)?.text || "";
     setEditingCommentId(commentId);
     setCommentText(commentText);
   };
@@ -36,7 +46,7 @@ function Comment({ imageId, comments, setComments }) {
       return;
     }
     setComments((prevComments) => {
-      const updatedComments = prevComments[imageId].map((comment) => {
+      const updatedComments = prevComments.map((comment) => {
         if (comment.id === editingCommentId) {
           return {
             ...comment,
@@ -45,26 +55,25 @@ function Comment({ imageId, comments, setComments }) {
         }
         return comment;
       });
-      return {
-        ...prevComments,
-        [imageId]: updatedComments,
-      };
+      return updatedComments;
     });
     setEditingCommentId(null);
     setCommentText("");
   };
 
   const handleDeleteComment = (commentId) => {
-    setComments((prevComments) => {
-      const updatedComments = prevComments[imageId].filter((comment) => comment.id !== commentId);
-      return {
-        ...prevComments,
-        [imageId]: updatedComments,
-      };
-    });
+    setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
   };
 
-  const imageComments = comments[imageId] || [];
+  const handleToggleButtons = (commentId) => {
+    setSelectedCommentId((prevSelectedCommentId) =>
+      prevSelectedCommentId === commentId ? null : commentId
+    );
+    setEditingCommentId(null);
+    setCommentText("");
+  };
+
+  const imageComments = comments || [];
 
   return (
     <div className="comment-section">
@@ -72,22 +81,20 @@ function Comment({ imageId, comments, setComments }) {
       {imageComments.length === 0 && <p>No comments yet.</p>}
       {imageComments.map((comment) => (
         <div key={comment.id} className="comment">
-          {editingCommentId === comment.id ? (
-            <form onSubmit={handleUpdateComment}>
-              <textarea
-                rows="3"
-                value={commentText}
-                onChange={handleCommentChange}
-              ></textarea>
-              <button type="submit">Save</button>
-            </form>
-          ) : (
+          <div onClick={() => handleToggleButtons(comment.id)}>{comment.text}</div>
+          {selectedCommentId === comment.id && (
             <>
-              <div>{comment.text}</div>
-              <div>
-                <button onClick={() => handleEditComment(comment.id)}>Edit</button>
-                <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
-              </div>
+              {editingCommentId === comment.id ? (
+                <form onSubmit={handleUpdateComment}>
+                  <textarea rows="3" value={commentText} onChange={handleCommentChange}></textarea>
+                  <button type="submit">Save</button>
+                </form>
+              ) : (
+                <div>
+                  <button onClick={() => handleEditComment(comment.id)}>Edit</button>
+                  <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+                </div>
+              )}
             </>
           )}
         </div>
