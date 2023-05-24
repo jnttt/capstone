@@ -7,6 +7,6 @@ Link to trello board: https://trello.com/b/IoFMCRAn/module-3-project
 Used Visual Studio Code HTML, CSS, and JavaScript
 
 Stretch goals I have for this project:
-Save comments
-User specific commenting
-A liking feature
+Add more pictures,
+User specific commenting,
+A liking feature.
