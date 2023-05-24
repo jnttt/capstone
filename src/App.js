@@ -9,7 +9,7 @@ import AuthPage from "./Pages/AuthPage/AuthPage";
 import GalleryPage from "./Pages/GalleryPage/GalleryPage";
 // components
 import NavBar from "./components/NavBar/NavBar";
-import ImageDetail from "./components/ImageDetail";
+import ImageDetail from "./Pages/ImagePage/ImageDetail";
 
 function App() {
   const [user, setUser] = useState(getUser());

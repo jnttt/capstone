@@ -1,6 +1,6 @@
 
 import Gallery from "../../components/Gallery/Gallery"
-import ImageDetail from "../../components/ImageDetail";
+import ImageDetail from "../ImagePage/ImageDetail";
 
 export default function GalleryPage() {
 
