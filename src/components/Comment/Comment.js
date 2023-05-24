@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function Comment({ imageId, comments, setComments }) {
   const [commentText, setCommentText] = useState("");
+  const [editingCommentId, setEditingCommentId] = useState(null);
 
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
@@ -23,6 +24,46 @@ function Comment({ imageId, comments, setComments }) {
     setCommentText("");
   };
 
+  const handleEditComment = (commentId) => {
+    const commentText = comments[imageId].find((comment) => comment.id === commentId)?.text || "";
+    setEditingCommentId(commentId);
+    setCommentText(commentText);
+  };
+
+  const handleUpdateComment = (event) => {
+    event.preventDefault();
+    if (commentText.trim() === "") {
+      return;
+    }
+    setComments((prevComments) => {
+      const updatedComments = prevComments[imageId].map((comment) => {
+        if (comment.id === editingCommentId) {
+          return {
+            ...comment,
+            text: commentText,
+          };
+        }
+        return comment;
+      });
+      return {
+        ...prevComments,
+        [imageId]: updatedComments,
+      };
+    });
+    setEditingCommentId(null);
+    setCommentText("");
+  };
+
+  const handleDeleteComment = (commentId) => {
+    setComments((prevComments) => {
+      const updatedComments = prevComments[imageId].filter((comment) => comment.id !== commentId);
+      return {
+        ...prevComments,
+        [imageId]: updatedComments,
+      };
+    });
+  };
+
   const imageComments = comments[imageId] || [];
 
   return (
@@ -31,7 +72,24 @@ function Comment({ imageId, comments, setComments }) {
       {imageComments.length === 0 && <p>No comments yet.</p>}
       {imageComments.map((comment) => (
         <div key={comment.id} className="comment">
-          {comment.text}
+          {editingCommentId === comment.id ? (
+            <form onSubmit={handleUpdateComment}>
+              <textarea
+                rows="3"
+                value={commentText}
+                onChange={handleCommentChange}
+              ></textarea>
+              <button type="submit">Save</button>
+            </form>
+          ) : (
+            <>
+              <div>{comment.text}</div>
+              <div>
+                <button onClick={() => handleEditComment(comment.id)}>Edit</button>
+                <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+              </div>
+            </>
+          )}
         </div>
       ))}
       <form onSubmit={handleSubmitComment}>
